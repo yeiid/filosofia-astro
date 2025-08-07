@@ -1,0 +1,337 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+export const prerender = false;
+---
+
+<Layout title="Foro Filosófico - Filosofía Interactiva">
+  <main class="min-h-screen gradient-bg">
+    <!-- Header -->
+    <section class="container mx-auto px-4 py-8">
+      <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+        <div>
+          <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-2">
+            Foro Filosófico
+          </h1>
+          <p class="text-gray-600 dark:text-gray-300">
+            Discute ideas filosóficas con otros pensadores
+          </p>
+        </div>
+        <button
+          id="nuevaPreguntaBtn"
+          class="btn-primary"
+        >
+          Nueva Pregunta
+        </button>
+      </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="container mx-auto px-4 py-4">
+      <div class="card">
+        <div class="flex flex-col sm:flex-row gap-4 items-center">
+          <div class="flex-1">
+            <input
+              type="text"
+              placeholder="Buscar preguntas..."
+              class="input-field"
+              id="searchInput"
+            />
+          </div>
+          <select class="input-field w-full sm:w-auto" id="filterCategory">
+            <option value="">Todas las categorías</option>
+            <option value="etica">Ética</option>
+            <option value="metafisica">Metafísica</option>
+            <option value="epistemologia">Epistemología</option>
+            <option value="politica">Filosofía Política</option>
+            <option value="estetica">Estética</option>
+            <option value="logica">Lógica</option>
+          </select>
+          <select class="input-field w-full sm:w-auto" id="filterSort">
+            <option value="recent">Más recientes</option>
+            <option value="popular">Más populares</option>
+            <option value="unanswered">Sin responder</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <!-- Questions List -->
+    <section class="container mx-auto px-4 py-8">
+      <div class="space-y-4" id="questionsList">
+        <!-- Sample Questions -->
+        <div class="card hover:shadow-lg transition-shadow cursor-pointer">
+          <div class="flex items-start gap-4">
+            <div class="flex flex-col items-center text-center min-w-[60px]">
+              <div class="text-2xl font-bold text-blue-600">5</div>
+              <div class="text-sm text-gray-500">votos</div>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                ¿Qué es la felicidad según Aristóteles?
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                Estoy estudiando la Ética a Nicómaco y me gustaría entender mejor el concepto de eudaimonia. 
+                ¿Alguien puede explicar cómo Aristóteles define la felicidad y cómo se relaciona con la virtud?
+              </p>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs rounded">
+                  Ética
+                </span>
+                <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded">
+                  Aristóteles
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center gap-4">
+                  <span>Por: María González</span>
+                  <span>hace 2 horas</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span>3 respuestas</span>
+                  <span>12 vistas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow cursor-pointer">
+          <div class="flex items-start gap-4">
+            <div class="flex flex-col items-center text-center min-w-[60px]">
+              <div class="text-2xl font-bold text-blue-600">8</div>
+              <div class="text-sm text-gray-500">votos</div>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                El problema del libre albedrío en la filosofía moderna
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                ¿Cómo han abordado los filósofos modernos el problema del determinismo vs libre albedrío? 
+                Me interesa especialmente la perspectiva de Kant y los filósofos contemporáneos.
+              </p>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs rounded">
+                  Metafísica
+                </span>
+                <span class="px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs rounded">
+                  Kant
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center gap-4">
+                  <span>Por: Carlos Ruiz</span>
+                  <span>hace 1 día</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span>7 respuestas</span>
+                  <span>45 vistas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow cursor-pointer">
+          <div class="flex items-start gap-4">
+            <div class="flex flex-col items-center text-center min-w-[60px]">
+              <div class="text-2xl font-bold text-gray-400">0</div>
+              <div class="text-sm text-gray-500">votos</div>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+                ¿Qué es la belleza objetiva?
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-3 line-clamp-2">
+                ¿Existe la belleza objetiva o es siempre subjetiva? ¿Qué dicen los filósofos sobre esto?
+              </p>
+              <div class="flex flex-wrap gap-2 mb-3">
+                <span class="px-2 py-1 bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200 text-xs rounded">
+                  Estética
+                </span>
+              </div>
+              <div class="flex items-center justify-between text-sm text-gray-500">
+                <div class="flex items-center gap-4">
+                  <span>Por: Ana López</span>
+                  <span>hace 3 días</span>
+                </div>
+                <div class="flex items-center gap-4">
+                  <span>0 respuestas</span>
+                  <span>8 vistas</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pagination -->
+      <div class="flex justify-center mt-8">
+        <nav class="flex items-center gap-2">
+          <button class="px-3 py-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+            Anterior
+          </button>
+          <button class="px-3 py-2 bg-blue-600 text-white rounded">1</button>
+          <button class="px-3 py-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">2</button>
+          <button class="px-3 py-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">3</button>
+          <button class="px-3 py-2 text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+            Siguiente
+          </button>
+        </nav>
+      </div>
+    </section>
+
+    <!-- Modal Nueva Pregunta -->
+    <div id="nuevaPreguntaModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+      <div class="bg-white dark:bg-gray-800 rounded-lg p-6 w-full max-w-2xl mx-4">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-2xl font-bold text-gray-900 dark:text-white">
+            Nueva Pregunta
+          </h2>
+          <button id="closeModal" class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        
+        <form id="nuevaPreguntaForm" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Título de la pregunta
+            </label>
+            <input
+              type="text"
+              required
+              class="input-field"
+              placeholder="Escribe un título claro y específico"
+            />
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Categoría
+            </label>
+            <select class="input-field" required>
+              <option value="">Selecciona una categoría</option>
+              <option value="etica">Ética</option>
+              <option value="metafisica">Metafísica</option>
+              <option value="epistemologia">Epistemología</option>
+              <option value="politica">Filosofía Política</option>
+              <option value="estetica">Estética</option>
+              <option value="logica">Lógica</option>
+            </select>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Detalles de la pregunta
+            </label>
+            <textarea
+              required
+              rows="6"
+              class="input-field"
+              placeholder="Proporciona contexto y detalles sobre tu pregunta filosófica..."
+            ></textarea>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Etiquetas (opcional)
+            </label>
+            <input
+              type="text"
+              class="input-field"
+              placeholder="filosofo, concepto, época (separadas por comas)"
+            />
+          </div>
+          
+          <div class="flex justify-end gap-3">
+            <button
+              type="button"
+              id="cancelarPregunta"
+              class="btn-secondary"
+            >
+              Cancelar
+            </button>
+            <button
+              type="submit"
+              class="btn-primary"
+            >
+              Publicar Pregunta
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  // Modal functionality
+  const modal = document.getElementById('nuevaPreguntaModal') as HTMLElement;
+  const openBtn = document.getElementById('nuevaPreguntaBtn') as HTMLButtonElement;
+  const closeBtn = document.getElementById('closeModal') as HTMLButtonElement;
+  const cancelBtn = document.getElementById('cancelarPregunta') as HTMLButtonElement;
+  const form = document.getElementById('nuevaPreguntaForm') as HTMLFormElement;
+
+  function openModal() {
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+  }
+
+  function closeModal() {
+    modal.classList.add('hidden');
+    modal.classList.remove('flex');
+  }
+
+  if (openBtn) openBtn.addEventListener('click', openModal);
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+
+  // Close modal when clicking outside
+  modal?.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      closeModal();
+    }
+  });
+
+  // Form submission
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target as HTMLFormElement);
+      console.log('Nueva pregunta:', {
+        titulo: formData.get('titulo'),
+        categoria: formData.get('categoria'),
+        detalles: formData.get('detalles'),
+        etiquetas: formData.get('etiquetas')
+      });
+      
+      // Simulación de publicación
+      alert('¡Pregunta publicada exitosamente!');
+      closeModal();
+      (e.target as HTMLFormElement).reset();
+    });
+  }
+
+  // Search functionality
+  const searchInput = document.getElementById('searchInput') as HTMLInputElement;
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      const query = (e.target as HTMLInputElement).value.toLowerCase();
+      console.log('Buscando:', query);
+      // Aquí iría la lógica de búsqueda
+    });
+  }
+</script>
+
+<style>
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

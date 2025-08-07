@@ -1,0 +1,104 @@
+---
+// Este componente maneja el estado de autenticación
+---
+
+<div id="authStatus" class="flex items-center space-x-4">
+  <!-- Estado de carga -->
+  <div id="loadingAuth" class="text-sm text-gray-500">
+    Verificando...
+  </div>
+  
+  <!-- Usuario no autenticado -->
+  <div id="notAuthenticated" class="hidden space-x-4">
+    <a
+      href="/login"
+      class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 px-3 py-2 text-sm font-medium"
+    >
+      Iniciar Sesión
+    </a>
+    <a
+      href="/registro"
+      class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium"
+    >
+      Registrarse
+    </a>
+  </div>
+  
+  <!-- Usuario autenticado -->
+  <div id="authenticated" class="hidden flex items-center space-x-4">
+    <span id="userEmail" class="text-sm text-gray-700 dark:text-gray-300"></span>
+    <button
+      id="logoutBtn"
+      class="text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 px-3 py-2 text-sm font-medium"
+    >
+      Cerrar Sesión
+    </button>
+  </div>
+</div>
+
+<script>
+  import { auth, supabase } from '../lib/supabase.ts';
+
+  const loadingAuth = document.getElementById('loadingAuth');
+  const notAuthenticated = document.getElementById('notAuthenticated');
+  const authenticated = document.getElementById('authenticated');
+  const userEmail = document.getElementById('userEmail');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Verificar estado de autenticación al cargar
+  async function checkAuthStatus() {
+    try {
+      const { session } = await auth.getCurrentSession();
+      
+      if (session && session.user) {
+        // Usuario autenticado
+        loadingAuth?.classList.add('hidden');
+        authenticated?.classList.remove('hidden');
+        if (userEmail) {
+          userEmail.textContent = session.user.email || '';
+        }
+      } else {
+        // Usuario no autenticado
+        loadingAuth?.classList.add('hidden');
+        notAuthenticated?.classList.remove('hidden');
+      }
+    } catch (error) {
+      console.error('Error checking auth status:', error);
+      // En caso de error, mostrar opciones de login
+      loadingAuth?.classList.add('hidden');
+      notAuthenticated?.classList.remove('hidden');
+    }
+  }
+
+  // Manejar logout
+  if (logoutBtn) {
+    logoutBtn.addEventListener('click', async () => {
+      try {
+        await auth.signOut();
+        window.location.href = '/';
+      } catch (error) {
+        console.error('Error signing out:', error);
+        alert('Error al cerrar sesión');
+      }
+    });
+  }
+
+  // Verificar estado al cargar la página
+  checkAuthStatus();
+
+  // Escuchar cambios en el estado de autenticación
+  supabase.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_IN') {
+      loadingAuth?.classList.add('hidden');
+      notAuthenticated?.classList.add('hidden');
+      authenticated?.classList.remove('hidden');
+      if (userEmail && session?.user?.email) {
+        userEmail.textContent = session.user.email;
+      }
+    } else if (event === 'SIGNED_OUT') {
+      loadingAuth?.classList.add('hidden');
+      authenticated?.classList.add('hidden');
+      notAuthenticated?.classList.remove('hidden');
+    }
+  });
+</script>

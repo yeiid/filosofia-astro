@@ -1,0 +1,245 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Registro - Filosofía Interactiva">
+  <main class="min-h-screen gradient-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+          Crear Cuenta
+        </h2>
+        <p class="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          Únete a nuestra comunidad filosófica
+        </p>
+      </div>
+
+      <div class="card">
+        <form class="space-y-6" id="registroForm">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="nombre" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Nombre
+              </label>
+              <input
+                id="nombre"
+                name="nombre"
+                type="text"
+                required
+                class="input-field"
+                placeholder="Tu nombre"
+              />
+            </div>
+            <div>
+              <label for="apellido" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Apellido
+              </label>
+              <input
+                id="apellido"
+                name="apellido"
+                type="text"
+                required
+                class="input-field"
+                placeholder="Tu apellido"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Correo Electrónico
+            </label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              class="input-field"
+              placeholder="tu@email.com"
+            />
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Contraseña
+            </label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              required
+              class="input-field"
+              placeholder="••••••••"
+              minlength="8"
+            />
+            <p class="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              Mínimo 8 caracteres
+            </p>
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Confirmar Contraseña
+            </label>
+            <input
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              required
+              class="input-field"
+              placeholder="••••••••"
+            />
+          </div>
+
+          <div>
+            <label for="interes" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Área de Interés Filosófico
+            </label>
+            <select
+              id="interes"
+              name="interes"
+              class="input-field"
+            >
+              <option value="">Selecciona una opción</option>
+              <option value="etica">Ética</option>
+              <option value="metafisica">Metafísica</option>
+              <option value="epistemologia">Epistemología</option>
+              <option value="politica">Filosofía Política</option>
+              <option value="estetica">Estética</option>
+              <option value="logica">Lógica</option>
+              <option value="filosofia-antigua">Filosofía Antigua</option>
+              <option value="filosofia-moderna">Filosofía Moderna</option>
+              <option value="filosofia-contemporanea">Filosofía Contemporánea</option>
+            </select>
+          </div>
+
+          <div class="flex items-center">
+            <input
+              id="terms"
+              name="terms"
+              type="checkbox"
+              required
+              class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            />
+            <label for="terms" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
+              Acepto los{' '}
+              <a href="#" class="text-blue-600 hover:text-blue-500">términos y condiciones</a>
+              {' '}y la{' '}
+              <a href="#" class="text-blue-600 hover:text-blue-500">política de privacidad</a>
+            </label>
+          </div>
+
+          <div>
+            <button
+              type="submit"
+              class="w-full btn-primary py-3"
+            >
+              Crear Cuenta
+            </button>
+          </div>
+
+          <div class="text-center">
+            <p class="text-sm text-gray-600 dark:text-gray-400">
+              ¿Ya tienes una cuenta?{' '}
+              <a href="/login" class="font-medium text-blue-600 hover:text-blue-500">
+                Inicia sesión aquí
+              </a>
+            </p>
+          </div>
+        </form>
+
+        <!-- Social Registration -->
+        <div class="mt-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-300 dark:border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-white dark:bg-gray-800 text-gray-500">O regístrate con</span>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-1 gap-3">
+            <button
+              type="button"
+              class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm bg-white dark:bg-gray-800 text-sm font-medium text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700"
+            >
+              <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              <span class="ml-2">Google</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { auth } from '../lib/supabase.ts';
+
+  const form = document.getElementById('registroForm') as HTMLFormElement;
+  if (form) {
+    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Deshabilitar el botón de envío
+      submitButton.disabled = true;
+      submitButton.textContent = 'Registrando...';
+      
+      const formData = new FormData(e.target as HTMLFormElement);
+      const email = formData.get('email') as string;
+      const password = formData.get('password') as string;
+      const confirmPassword = formData.get('confirmPassword') as string;
+      const nombre = formData.get('nombre') as string;
+      const apellido = formData.get('apellido') as string;
+      
+      if (password !== confirmPassword) {
+        alert('Las contraseñas no coinciden');
+        submitButton.disabled = false;
+        submitButton.textContent = 'Crear Cuenta';
+        return;
+      }
+      
+      try {
+        const { data, error } = await auth.signUp(email, password, {
+          nombre: nombre,
+          apellido: apellido
+        });
+        
+        if (error) {
+          throw error;
+        }
+        
+        if (data.user) {
+          alert('¡Registro exitoso! Por favor, revisa tu email para confirmar tu cuenta.');
+          window.location.href = '/login';
+        }
+        
+      } catch (error: any) {
+        console.error('Error en el registro:', error);
+        let errorMessage = 'Error en el registro. Por favor, intenta de nuevo.';
+        
+        if (error.message?.includes('User already registered')) {
+          errorMessage = 'Este email ya está registrado. Intenta iniciar sesión.';
+        } else if (error.message?.includes('Password should be at least')) {
+          errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
+        } else if (error.message?.includes('Invalid email')) {
+          errorMessage = 'Por favor, ingresa un email válido.';
+        }
+        
+        alert(errorMessage);
+      } finally {
+        // Rehabilitar el botón de envío
+        submitButton.disabled = false;
+        submitButton.textContent = 'Crear Cuenta';
+      }
+    });
+  }
+</script>

@@ -1,11 +1,142 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import filosofiaData from '../data/filosofia.json';
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Filosofía Interactiva - Inicio">
+  <main class="min-h-screen gradient-bg">
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 py-16 text-center">
+      <h1 class="text-5xl md:text-6xl font-bold text-gray-900 dark:text-white mb-6 animate-fade-in-up">
+        Filosofía <span class="text-blue-600">Interactiva</span>
+      </h1>
+      <p class="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto animate-fade-in-up">
+        Explora la historia de la filosofía a través de una línea de tiempo interactiva, 
+        descubre las ideas de los grandes pensadores y participa en discusiones filosóficas.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up">
+        <a href="#timeline" class="btn-primary">
+          Explorar Línea de Tiempo
+        </a>
+        <a href="/foro" class="btn-secondary">
+          Unirse al Foro
+        </a>
+      </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="container mx-auto px-4 py-16">
+      <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">
+        Línea de Tiempo Filosófica
+      </h2>
+      
+      <div class="max-w-4xl mx-auto">
+        {filosofiaData.epocas.map((epoca) => (
+          <div class="timeline-item">
+            <div class="card">
+              <div class="flex items-start justify-between">
+                <div class="flex-1">
+                  <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                    {epoca.nombre}
+                  </h3>
+                  <p class="text-blue-600 font-medium mb-3">{epoca.periodo}</p>
+                  <p class="text-gray-600 dark:text-gray-300 mb-4">
+                    {epoca.descripcion}
+                  </p>
+                  
+                  <!-- Filósofos de esta época -->
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+                    {filosofiaData.filosofos
+                      .filter(filosofo => filosofo.epoca === epoca.nombre)
+                      .map(filosofo => (
+                        <div class="philosopher-card p-4">
+                          <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center">
+                              <span class="text-blue-600 dark:text-blue-300 font-bold text-lg">
+                                {filosofo.nombre.charAt(0)}
+                              </span>
+                            </div>
+                            <div>
+                              <h4 class="font-semibold text-gray-900 dark:text-white">
+                                {filosofo.nombre}
+                              </h4>
+                              <p class="text-sm text-gray-600 dark:text-gray-400">
+                                {filosofo.escuela}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Featured Philosophers -->
+    <section class="container mx-auto px-4 py-16">
+      <h2 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-12">
+        Filósofos Destacados
+      </h2>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {filosofiaData.filosofos.slice(0, 8).map(filosofo => (
+          <div class="philosopher-card">
+            <div class="p-6">
+              <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="text-blue-600 dark:text-blue-300 font-bold text-2xl">
+                  {filosofo.nombre.charAt(0)}
+                </span>
+              </div>
+              <h3 class="text-xl font-bold text-center text-gray-900 dark:text-white mb-2">
+                {filosofo.nombre}
+              </h3>
+              <p class="text-sm text-center text-blue-600 mb-3">{filosofo.epoca}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-300 text-center mb-4 line-clamp-3">
+                {filosofo.biografia.substring(0, 120)}...
+              </p>
+              <div class="text-center">
+                <button class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                  Leer más
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="container mx-auto px-4 py-16">
+      <div class="card text-center max-w-4xl mx-auto">
+        <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">
+          ¿Te gusta la filosofía?
+        </h2>
+        <p class="text-gray-600 dark:text-gray-300 mb-8">
+          Únete a nuestra comunidad y participa en discusiones filosóficas, 
+          comparte tus ideas y aprende de otros pensadores.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/registro" class="btn-primary">
+            Registrarse
+          </a>
+          <a href="/login" class="btn-secondary">
+            Iniciar Sesión
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
 </Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

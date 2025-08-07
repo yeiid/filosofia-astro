@@ -1,0 +1,136 @@
+{
+  "filosofos": [
+    {
+      "id": 1,
+      "nombre": "Sócrates",
+      "epoca": "Antigua Grecia",
+      "escuela": "Filosofía Socrática",
+      "biografia": "Sócrates fue un filósofo griego considerado como uno de los más importantes de la tradición filosófica occidental. Es conocido por su método de enseñanza basado en preguntas y respuestas.",
+      "obras_principales": ["No escribió obras", "Conocido por los diálogos de Platón"],
+      "fecha_nacimiento": "-470",
+      "fecha_muerte": "-399",
+      "imagen_url": "/images/socrates.jpg"
+    },
+    {
+      "id": 2,
+      "nombre": "Platón",
+      "epoca": "Antigua Grecia",
+      "escuela": "Academia de Platón",
+      "biografia": "Platón fue un filósofo griego seguidor de Sócrates y maestro de Aristóteles. Fundó la Academia en Atenas, la primera institución de educación superior del mundo occidental.",
+      "obras_principales": ["La República", "El Banquete", "Fedón", "Timeo"],
+      "fecha_nacimiento": "-428",
+      "fecha_muerte": "-348",
+      "imagen_url": "/images/plato.jpg"
+    },
+    {
+      "id": 3,
+      "nombre": "Aristóteles",
+      "epoca": "Antigua Grecia",
+      "escuela": "Liceo",
+      "biografia": "Aristóteles fue un filósofo griego, discípulo de Platón y maestro de Alejandro Magno. Sus escritos abarcan desde física y biología hasta ética y política.",
+      "obras_principales": ["Ética a Nicómaco", "Política", "Metafísica", "Poética"],
+      "fecha_nacimiento": "-384",
+      "fecha_muerte": "-322",
+      "imagen_url": "/images/aristotle.jpg"
+    },
+    {
+      "id": 4,
+      "nombre": "René Descartes",
+      "epoca": "Edad Moderna",
+      "escuela": "Racionalismo",
+      "biografia": "Descartes fue un filósofo, matemático y científico francés. Es considerado el padre de la filosofía moderna y del racionalismo.",
+      "obras_principales": ["Discurso del método", "Meditaciones metafísicas", "Principios de filosofía"],
+      "fecha_nacimiento": "1596",
+      "fecha_muerte": "1650",
+      "imagen_url": "/images/descartes.jpg"
+    },
+    {
+      "id": 5,
+      "nombre": "Immanuel Kant",
+      "epoca": "Ilustración",
+      "escuela": "Idealismo Alemán",
+      "biografia": "Kant fue un filósofo alemán considerado como uno de los pensadores más influyentes de la Europa moderna. Su obra 'Crítica de la razón pura' revolucionó la filosofía.",
+      "obras_principales": ["Crítica de la razón pura", "Crítica de la razón práctica", "Crítica del juicio"],
+      "fecha_nacimiento": "1724",
+      "fecha_muerte": "1804",
+      "imagen_url": "/images/kant.jpg"
+    },
+    {
+      "id": 6,
+      "nombre": "Friedrich Nietzsche",
+      "epoca": "Siglo XIX",
+      "escuela": "Filosofía Continental",
+      "biografia": "Nietzsche fue un filósofo, poeta, músico y filólogo alemán. Sus ideas han ejercido una profunda influencia en el pensamiento filosófico, cultural y político del siglo XX.",
+      "obras_principales": ["Así habló Zaratustra", "Más allá del bien y del mal", "La genealogía de la moral"],
+      "fecha_nacimiento": "1844",
+      "fecha_muerte": "1900",
+      "imagen_url": "/images/nietzsche.jpg"
+    },
+    {
+      "id": 7,
+      "nombre": "Jean-Paul Sartre",
+      "epoca": "Siglo XX",
+      "escuela": "Existencialismo",
+      "biografia": "Sartre fue un filósofo, escritor, novelista, dramaturgo, activista político y crítico literario francés. Fue uno de los principales representantes del existencialismo.",
+      "obras_principales": ["El ser y la nada", "El existencialismo es un humanismo", "La náusea"],
+      "fecha_nacimiento": "1905",
+      "fecha_muerte": "1980",
+      "imagen_url": "/images/sartre.jpg"
+    },
+    {
+      "id": 8,
+      "nombre": "Simone de Beauvoir",
+      "epoca": "Siglo XX",
+      "escuela": "Existencialismo",
+      "biografia": "Beauvoir fue una escritora, profesora y filósofa francesa. Su obra 'El segundo sexo' es considerada fundamental en la historia del feminismo.",
+      "obras_principales": ["El segundo sexo", "Los mandarines", "Memorias de una joven formal"],
+      "fecha_nacimiento": "1908",
+      "fecha_muerte": "1986",
+      "imagen_url": "/images/beauvoir.jpg"
+    }
+  ],
+  "epocas": [
+    {
+      "id": 1,
+      "nombre": "Antigua Grecia",
+      "periodo": "Siglos VI - IV a.C.",
+      "descripcion": "Nacimiento de la filosofía occidental con los presocráticos, Sócrates, Platón y Aristóteles."
+    },
+    {
+      "id": 2,
+      "nombre": "Helenismo",
+      "periodo": "Siglos IV - I a.C.",
+      "descripcion": "Desarrollo de escuelas como el estoicismo, epicureísmo y escepticismo."
+    },
+    {
+      "id": 3,
+      "nombre": "Edad Media",
+      "periodo": "Siglos V - XV",
+      "descripcion": "Filosofía cristiana y escolástica, con figuras como San Agustín y Santo Tomás de Aquino."
+    },
+    {
+      "id": 4,
+      "nombre": "Renacimiento",
+      "periodo": "Siglos XV - XVI",
+      "descripcion": "Recuperación del pensamiento clásico y humanismo."
+    },
+    {
+      "id": 5,
+      "nombre": "Edad Moderna",
+      "periodo": "Siglos XVII - XVIII",
+      "descripcion": "Racionalismo, empirismo y la Ilustración."
+    },
+    {
+      "id": 6,
+      "nombre": "Siglo XIX",
+      "periodo": "1800 - 1900",
+      "descripcion": "Idealismo alemán, materialismo dialéctico y filosofía de la vida."
+    },
+    {
+      "id": 7,
+      "nombre": "Siglo XX",
+      "periodo": "1900 - 2000",
+      "descripcion": "Existencialismo, fenomenología, filosofía analítica y posmodernismo."
+    }
+  ]
+}

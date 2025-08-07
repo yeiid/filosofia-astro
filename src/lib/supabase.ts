@@ -1,0 +1,94 @@
+import { createClient } from '@supabase/supabase-js'
+
+const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.warn('Variables de entorno de Supabase no configuradas. Usando valores por defecto para desarrollo.')
+}
+
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder.supabase.co', 
+  supabaseAnonKey || 'placeholder-key'
+)
+
+// Funciones de autenticación
+export const auth = {
+  // Registrar usuario
+  async signUp(email: string, password: string, userData?: { nombre?: string, apellido?: string }) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: userData
+      }
+    })
+    return { data, error }
+  },
+
+  // Iniciar sesión
+  async signIn(email: string, password: string) {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password
+    })
+    return { data, error }
+  },
+
+  // Cerrar sesión
+  async signOut() {
+    const { error } = await supabase.auth.signOut()
+    return { error }
+  },
+
+  // Obtener usuario actual
+  async getCurrentUser() {
+    const { data: { user }, error } = await supabase.auth.getUser()
+    return { user, error }
+  },
+
+  // Obtener sesión actual
+  async getCurrentSession() {
+    const { data: { session }, error } = await supabase.auth.getSession()
+    return { session, error }
+  }
+}
+
+// Tipos para TypeScript
+export interface User {
+  id: string
+  email: string
+  nombre: string
+  created_at: string
+}
+
+export interface Filosofo {
+  id: number
+  nombre: string
+  epoca: string
+  escuela: string
+  biografia: string
+  obras_principales: string[]
+  imagen_url?: string
+  fecha_nacimiento?: string
+  fecha_muerte?: string
+}
+
+export interface Pregunta {
+  id: number
+  titulo: string
+  contenido: string
+  autor_id: string
+  autor_nombre: string
+  created_at: string
+  respuestas_count: number
+}
+
+export interface Respuesta {
+  id: number
+  contenido: string
+  autor_id: string
+  autor_nombre: string
+  pregunta_id: number
+  created_at: string
+}

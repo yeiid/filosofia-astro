@@ -1,0 +1,132 @@
+---
+import AuthStatus from './AuthStatus.astro';
+
+export interface Props {
+  currentPage?: string;
+}
+
+const { currentPage = 'home' } = Astro.props;
+---
+
+<nav class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
+  <div class="container mx-auto px-4">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <a href="/" class="flex items-center space-x-2">
+          <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+            <span class="text-white font-bold text-lg">Φ</span>
+          </div>
+          <span class="text-xl font-bold text-gray-900 dark:text-white">
+            Filosofía Interactiva
+          </span>
+        </a>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a 
+          href="/" 
+          class={`text-sm font-medium transition-colors ${
+            currentPage === 'home' 
+              ? 'text-blue-600 dark:text-blue-400' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+          }`}
+        >
+          Inicio
+        </a>
+        <a 
+          href="/foro" 
+          class={`text-sm font-medium transition-colors ${
+            currentPage === 'foro' 
+              ? 'text-blue-600 dark:text-blue-400' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+          }`}
+        >
+          Foro
+        </a>
+        <a 
+          href="/perfil" 
+          class={`text-sm font-medium transition-colors ${
+            currentPage === 'perfil' 
+              ? 'text-blue-600 dark:text-blue-400' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400'
+          }`}
+        >
+          Perfil
+        </a>
+      </div>
+
+      <!-- Auth Status -->
+      <AuthStatus />
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button 
+          id="mobileMenuBtn"
+          class="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+        >
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="md:hidden hidden">
+      <div class="px-2 pt-2 pb-3 space-y-1 border-t border-gray-200 dark:border-gray-700">
+        <a 
+          href="/" 
+          class={`block px-3 py-2 rounded-md text-base font-medium ${
+            currentPage === 'home' 
+              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+          }`}
+        >
+          Inicio
+        </a>
+        <a 
+          href="/foro" 
+          class={`block px-3 py-2 rounded-md text-base font-medium ${
+            currentPage === 'foro' 
+              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+          }`}
+        >
+          Foro
+        </a>
+        <a 
+          href="/perfil" 
+          class={`block px-3 py-2 rounded-md text-base font-medium ${
+            currentPage === 'perfil' 
+              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+          }`}
+        >
+          Perfil
+        </a>
+        <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
+          <a href="/login" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
+            Iniciar Sesión
+          </a>
+          <a href="/registro" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
+            Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Mobile menu toggle
+  const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+  }
+</script>
