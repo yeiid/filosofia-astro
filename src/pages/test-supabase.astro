@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { supabase, auth } from '../lib/supabase.ts';
+
+export const prerender = false;
+
+// Probar conexión con Supabase
+let connectionStatus = 'Verificando...';
+let authStatus = 'Verificando...';
+
+try {
+  // Probar conexión básica
+  const { data, error } = await supabase.from('_dummy_table').select('*').limit(1);
+  if (error && error.code === 'PGRST116') {
+    // Error esperado - tabla no existe, pero conexión funciona
+    connectionStatus = '✅ Conexión exitosa (tabla de prueba no existe)';
+  } else if (error) {
+    connectionStatus = `❌ Error de conexión: ${error.message}`;
+  } else {
+    connectionStatus = '✅ Conexión exitosa';
+  }
+} catch (error) {
+  connectionStatus = `❌ Error crítico: ${error.message}`;
+}
+
+// Probar autenticación
+try {
+  const { session } = await auth.getCurrentSession();
+  if (session) {
+    authStatus = `✅ Usuario autenticado: ${session.user.email}`;
+  } else {
+    authStatus = 'ℹ️ No hay sesión activa';
+  }
+} catch (error) {
+  authStatus = `❌ Error de autenticación: ${error.message}`;
+}
+---
+
+<Layout title="Prueba de Supabase - Filosofía Interactiva">
+  <main class="min-h-screen gradient-bg">
+    <div class="container mx-auto px-4 py-8">
+      <div class="max-w-2xl mx-auto">
+        <h1 class="text-4xl font-bold text-center text-gray-900 dark:text-white mb-8">
+          🔧 Pruebas de Supabase
+        </h1>
+        
+        <div class="space-y-6">
+          <!-- Estado de Conexión -->
+          <div class="card">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Estado de Conexión
+            </h2>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <p class="text-lg">{connectionStatus}</p>
+            </div>
+          </div>
+
+          <!-- Estado de Autenticación -->
+          <div class="card">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Estado de Autenticación
+            </h2>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+              <p class="text-lg">{authStatus}</p>
+            </div>
+          </div>
+
+          <!-- Variables de Entorno -->
+          <div class="card">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Variables de Entorno
+            </h2>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg space-y-2">
+              <p><strong>PUBLIC_SUPABASE_URL:</strong> 
+                {import.meta.env.PUBLIC_SUPABASE_URL ? '✅ Configurada' : '❌ No configurada'}
+              </p>
+              <p><strong>PUBLIC_SUPABASE_ANON_KEY:</strong> 
+                {import.meta.env.PUBLIC_SUPABASE_ANON_KEY ? '✅ Configurada' : '❌ No configurada'}
+              </p>
+            </div>
+          </div>
+
+          <!-- Pruebas de Funcionalidad -->
+          <div class="card">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Pruebas de Funcionalidad
+            </h2>
+            <div class="space-y-4">
+              <a href="/" class="btn-primary block text-center">
+                🏠 Ir a Página Principal
+              </a>
+              <a href="/login" class="btn-primary block text-center">
+                🔐 Probar Login
+              </a>
+              <a href="/registro" class="btn-primary block text-center">
+                📝 Probar Registro
+              </a>
+              <a href="/perfil" class="btn-primary block text-center">
+                👤 Probar Perfil (requiere auth)
+              </a>
+            </div>
+          </div>
+
+          <!-- Información de Desarrollo -->
+          <div class="card">
+            <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Información de Desarrollo
+            </h2>
+            <div class="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg space-y-2 text-sm">
+              <p><strong>Modo:</strong> {import.meta.env.DEV ? 'Desarrollo' : 'Producción'}</p>
+              <p><strong>Base URL:</strong> {import.meta.env.BASE_URL}</p>
+              <p><strong>Site:</strong> {import.meta.env.SITE}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  import { auth, supabase } from '../lib/supabase.ts';
+
+  // Pruebas adicionales del lado del cliente
+  console.log('🔧 Iniciando pruebas del lado del cliente...');
+
+  // Probar funciones de autenticación
+  async function testAuthFunctions() {
+    try {
+      console.log('📡 Probando funciones de autenticación...');
+      
+      // Probar obtener sesión actual
+      const { session } = await auth.getCurrentSession();
+      console.log('📋 Sesión actual:', session ? 'Activa' : 'No activa');
+      
+      // Probar obtener usuario actual
+      const { user } = await auth.getCurrentUser();
+      console.log('👤 Usuario actual:', user ? user.email : 'No autenticado');
+      
+      // Probar listener de cambios de auth
+      supabase.auth.onAuthStateChange((event, session) => {
+        console.log('🔄 Cambio de estado de auth:', event, session ? 'Con sesión' : 'Sin sesión');
+      });
+      
+    } catch (error) {
+      console.error('❌ Error en pruebas de auth:', error);
+    }
+  }
+
+  // Ejecutar pruebas cuando se carga la página
+  testAuthFunctions();
+</script>
