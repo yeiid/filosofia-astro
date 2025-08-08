@@ -52,10 +52,13 @@ export const auth = {
 }
 
 // Tipos para TypeScript
+// Representa el perfil completo de un usuario, combinando datos de auth.users y la tabla public.users
 export interface User {
   id: string
-  email: string
-  nombre: string
+  email?: string
+  nombre?: string
+  apellido?: string
+  interes_filosofico?: string
   created_at: string
 }
 

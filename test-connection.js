@@ -21,7 +21,7 @@ async function testConnection() {
     console.log('🔌 Probando conexión con Supabase...');
     
     // Intentar una consulta simple
-    const { data, error } = await supabase
+    const { data: _data, error } = await supabase
       .from('_dummy_table')
       .select('*')
       .limit(1);
@@ -40,8 +40,12 @@ async function testConnection() {
     }
     
   } catch (error) {
-    console.log('❌ Error crítico de conexión:');
-    console.log(`   ${error.message}`);
+    if (error instanceof Error) {
+      console.log('❌ Error crítico de conexión:');
+      console.log(`   ${error.message}`);
+    } else {
+      console.log('❌ Error crítico de conexión: Ocurrió un error desconocido.');
+    }
   }
 }
 
@@ -82,8 +86,12 @@ async function testAuth() {
     }
     
   } catch (error) {
-    console.log('❌ Error en pruebas de autenticación:');
-    console.log(`   ${error.message}`);
+    if (error instanceof Error) {
+      console.log('❌ Error en pruebas de autenticación:');
+      console.log(`   ${error.message}`);
+    } else {
+      console.log('❌ Error en pruebas de autenticación: Ocurrió un error desconocido.');
+    }
   }
 }
 
@@ -95,7 +103,7 @@ async function testSignUp() {
     const testEmail = `test-${Date.now()}@example.com`;
     const testPassword = 'testpassword123';
     
-    const { data, error } = await supabase.auth.signUp({
+    const { data: _data, error } = await supabase.auth.signUp({
       email: testEmail,
       password: testPassword
     });
@@ -110,8 +118,12 @@ async function testSignUp() {
     }
     
   } catch (error) {
-    console.log('❌ Error crítico en registro:');
-    console.log(`   ${error.message}`);
+    if (error instanceof Error) {
+      console.log('❌ Error crítico en registro:');
+      console.log(`   ${error.message}`);
+    } else {
+      console.log('❌ Error crítico en registro: Ocurrió un error desconocido.');
+    }
   }
 }
 
