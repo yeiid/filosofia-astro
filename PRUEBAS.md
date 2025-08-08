@@ -53,9 +53,9 @@ node test-connection.js
 
 **Para desarrollo local:**
 ```bash
-# Editar .env.local
-PUBLIC_SUPABASE_URL=https://tu-proyecto.supabase.co
-PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima-aqui
+# Crea un archivo .env en la raíz del proyecto y añade:
+PUBLIC_SUPABASE_URL=tu-url-de-supabase
+PUBLIC_SUPABASE_ANON_KEY=tu-clave-anonima-de-supabase
 ```
 
 **Para Vercel:**

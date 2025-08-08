@@ -1,11 +1,28 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { supabase } from '../lib/supabase';
+
+// Obtener la sesión actual
+const { data: { session } } = await supabase.auth.getSession();
+
+// Si el usuario ya está autenticado, redirigir a la página de perfil
+if (session) {
+  return Astro.redirect('/perfil');
+}
+
+// Obtener mensaje de error si existe
+const error = Astro.url.searchParams.get('error');
 ---
 
 <Layout title="Registro - Filosofía Interactiva">
   <main class="min-h-screen gradient-bg flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-8">
       <div class="text-center">
+        <a href="/" class="inline-block mb-4">
+          <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto">
+            <span class="text-white font-bold text-2xl">Φ</span>
+          </div>
+        </a>
         <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
           Crear Cuenta
         </h2>
@@ -13,6 +30,12 @@ import Layout from '../layouts/Layout.astro';
           Únete a nuestra comunidad filosófica
         </p>
       </div>
+
+      {error && (
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
+          <p>{error === 'email_exists' ? 'Este correo ya está registrado. Intenta iniciar sesión.' : 'Error en el registro. Por favor, inténtalo de nuevo.'}</p>
+        </div>
+      )}
 
       <div class="card">
         <form class="space-y-6" id="registroForm">
@@ -179,66 +202,126 @@ import Layout from '../layouts/Layout.astro';
   </main>
 </Layout>
 
+<!-- Script para manejar el envío del formulario de registro -->
 <script>
-  import { auth } from '../lib/supabase.ts';
-
-  const form = document.getElementById('registroForm') as HTMLFormElement;
-  if (form) {
-    const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
-    
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  // Solo ejecutar en el cliente
+  if (typeof window !== 'undefined') {
+    document.addEventListener('astro:page-load', () => {
+      const form = document.getElementById('registroForm');
+      const errorElement = document.getElementById('registro-error');
+      const passwordField = document.getElementById('password');
+      const confirmPasswordField = document.getElementById('confirmPassword');
       
-      // Deshabilitar el botón de envío
-      submitButton.disabled = true;
-      submitButton.textContent = 'Registrando...';
-      
-      const formData = new FormData(e.target as HTMLFormElement);
-      const email = formData.get('email') as string;
-      const password = formData.get('password') as string;
-      const confirmPassword = formData.get('confirmPassword') as string;
-      const nombre = formData.get('nombre') as string;
-      const apellido = formData.get('apellido') as string;
-      
-      if (password !== confirmPassword) {
-        alert('Las contraseñas no coinciden');
-        submitButton.disabled = false;
-        submitButton.textContent = 'Crear Cuenta';
-        return;
+      // Validar que las contraseñas coincidan en tiempo real
+      if (passwordField && confirmPasswordField) {
+        const validatePasswordMatch = () => {
+          if (passwordField.value !== confirmPasswordField.value) {
+            confirmPasswordField.setCustomValidity('Las contraseñas no coinciden');
+          } else {
+            confirmPasswordField.setCustomValidity('');
+          }
+        };
+        
+        passwordField.addEventListener('input', validatePasswordMatch);
+        confirmPasswordField.addEventListener('input', validatePasswordMatch);
       }
       
-      try {
-        const { data, error } = await auth.signUp(email, password, {
-          nombre: nombre,
-          apellido: apellido
+      if (form) {
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          
+          const submitButton = form.querySelector('button[type="submit"]');
+          const formData = new FormData(form);
+          
+          // Validación del formulario
+          if (!form.checkValidity()) {
+            // Si el formulario no es válido, mostrar mensajes de validación nativos
+            form.reportValidity();
+            return;
+          }
+          
+          const email = formData.get('email')?.toString() || '';
+          const password = formData.get('password')?.toString() || '';
+          const confirmPassword = formData.get('confirmPassword')?.toString() || '';
+          const nombre = formData.get('nombre')?.toString() || '';
+          const apellido = formData.get('apellido')?.toString() || '';
+          
+          // Validar que las contraseñas coincidan (por si la validación del navegador falla)
+          if (password !== confirmPassword) {
+            if (errorElement) {
+              errorElement.textContent = 'Las contraseñas no coinciden';
+              errorElement.classList.remove('hidden');
+            }
+            return;
+          }
+          
+          // Deshabilitar el botón de envío
+          if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Registrando...';
+          }
+          
+          try {
+            // Importar dinámicamente para evitar problemas de SSR
+            const { supabase } = await import('../lib/supabase');
+            
+            // Registrar al usuario
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: {
+                data: {
+                  nombre,
+                  apellido,
+                  full_name: `${nombre} ${apellido}`.trim()
+                },
+                emailRedirectTo: `${window.location.origin}/perfil`
+              }
+            });
+            
+            if (error) throw error;
+            
+            // Si el registro fue exitoso, redirigir a la página de verificación de correo
+            if (data.user) {
+              // Almacenar el email en el almacenamiento local para mostrarlo en la página de verificación
+              localStorage.setItem('emailForSignIn', email);
+              
+              // Redirigir a la página de verificación de correo
+              window.location.href = '/verificar-email';
+            }
+            
+          } catch (error) {
+            console.error('Error en el registro:', error);
+            
+            // Manejar errores específicos
+            let errorMessage = 'Error en el registro. Por favor, inténtalo de nuevo.';
+            
+            if (error.message?.includes('already registered')) {
+              errorMessage = 'Este correo ya está registrado. Intenta iniciar sesión.';
+              window.location.href = `/login?error=email_exists&email=${encodeURIComponent(email)}`;
+              return;
+            } else if (error.message?.includes('Password should be at least')) {
+              errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
+            } else if (error.message?.includes('Invalid email')) {
+              errorMessage = 'Por favor, ingresa un correo electrónico válido.';
+            }
+            
+            // Mostrar mensaje de error
+            if (errorElement) {
+              errorElement.textContent = errorMessage;
+              errorElement.classList.remove('hidden');
+            } else {
+              alert(errorMessage);
+            }
+            
+          } finally {
+            // Rehabilitar el botón de envío
+            if (submitButton) {
+              submitButton.disabled = false;
+              submitButton.textContent = 'Crear Cuenta';
+            }
+          }
         });
-        
-        if (error) {
-          throw error;
-        }
-        
-        if (data.user) {
-          alert('¡Registro exitoso! Por favor, revisa tu email para confirmar tu cuenta.');
-          window.location.href = '/login';
-        }
-        
-      } catch (error: any) {
-        console.error('Error en el registro:', error);
-        let errorMessage = 'Error en el registro. Por favor, intenta de nuevo.';
-        
-        if (error.message?.includes('User already registered')) {
-          errorMessage = 'Este email ya está registrado. Intenta iniciar sesión.';
-        } else if (error.message?.includes('Password should be at least')) {
-          errorMessage = 'La contraseña debe tener al menos 6 caracteres.';
-        } else if (error.message?.includes('Invalid email')) {
-          errorMessage = 'Por favor, ingresa un email válido.';
-        }
-        
-        alert(errorMessage);
-      } finally {
-        // Rehabilitar el botón de envío
-        submitButton.disabled = false;
-        submitButton.textContent = 'Crear Cuenta';
       }
     });
   }

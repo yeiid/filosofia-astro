@@ -1,11 +1,17 @@
 ---
-import AuthStatus from './AuthStatus.astro';
+import { supabase } from '../lib/supabase';
+
+// Obtener la sesión actual
+const { data: { session } } = await supabase.auth.getSession();
 
 export interface Props {
   currentPage?: string;
 }
 
 const { currentPage = 'home' } = Astro.props;
+
+// Determinar si el usuario está autenticado
+const isAuthenticated = !!session?.user;
 ---
 
 <nav class="bg-white dark:bg-gray-900 shadow-sm border-b border-gray-200 dark:border-gray-700">
@@ -58,7 +64,41 @@ const { currentPage = 'home' } = Astro.props;
       </div>
 
       <!-- Auth Status -->
-      <AuthStatus />
+      <div class="flex items-center space-x-4">
+        {isAuthenticated ? (
+          <div class="flex items-center space-x-4">
+            <a 
+              href="/perfil" 
+              class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Mi Perfil
+            </a>
+            <form action="/api/auth/signout" method="post">
+              <button 
+                type="submit"
+                class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+              >
+                Cerrar Sesión
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div class="flex items-center space-x-4">
+            <a 
+              href="/login" 
+              class="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400"
+            >
+              Iniciar Sesión
+            </a>
+            <a 
+              href="/registro" 
+              class="px-3 py-1.5 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Registrarse
+            </a>
+          </div>
+        )}
+      </div>
 
       <!-- Mobile menu button -->
       <div class="md:hidden">
@@ -96,23 +136,43 @@ const { currentPage = 'home' } = Astro.props;
         >
           Foro
         </a>
-        <a 
-          href="/perfil" 
-          class={`block px-3 py-2 rounded-md text-base font-medium ${
-            currentPage === 'perfil' 
-              ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
-              : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
-          }`}
-        >
-          Perfil
-        </a>
-        <div class="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-          <a href="/login" class="block px-3 py-2 text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400">
-            Iniciar Sesión
-          </a>
-          <a href="/registro" class="block px-3 py-2 text-base font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300">
-            Registrarse
-          </a>
+        {isAuthenticated ? (
+          <>
+            <a 
+              href="/perfil" 
+              class={`block px-3 py-2 rounded-md text-base font-medium ${
+                currentPage === 'perfil' 
+                  ? 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20' 
+                  : 'text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800'
+              }`}
+            >
+              Mi Perfil
+            </a>
+            <form action="/api/auth/signout" method="post" class="border-t border-gray-200 dark:border-gray-700 pt-2 mt-2">
+              <button 
+                type="submit"
+                class="w-full text-left px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+              >
+                Cerrar Sesión
+              </button>
+            </form>
+          </>
+        ) : (
+          <div class="pt-2 mt-2 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            <a 
+              href="/login" 
+              class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+            >
+              Iniciar Sesión
+            </a>
+            <a 
+              href="/registro" 
+              class="block px-3 py-2 rounded-md text-base font-medium text-white bg-blue-600 hover:bg-blue-700 text-center"
+            >
+              Registrarse
+            </a>
+          </div>
+        )}
         </div>
       </div>
     </div>

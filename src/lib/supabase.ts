@@ -1,13 +1,32 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
-const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+// Obtener variables de entorno de manera segura
+const getEnv = () => ({
+  supabaseUrl: import.meta.env.PUBLIC_SUPABASE_URL,
+  supabaseAnonKey: import.meta.env.PUBLIC_SUPABASE_ANON_KEY
+})
+
+const { supabaseUrl, supabaseAnonKey } = getEnv()
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error('Las variables de entorno de Supabase (PUBLIC_SUPABASE_URL y PUBLIC_SUPABASE_ANON_KEY) no están configuradas. Asegúrate de crear un archivo .env y añadirlas.')
+  throw new Error('Las variables de entorno de Supabase no están configuradas.')
 }
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
+})
+
+// Tipos para TypeScript
+type UserProfile = {
+  id: string
+  email?: string
+  nombre?: string
+  apellido?: string
+}
 
 // Funciones de autenticación
 export const auth = {
