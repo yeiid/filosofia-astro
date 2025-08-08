@@ -4,13 +4,10 @@ const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL
 const supabaseAnonKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('Variables de entorno de Supabase no configuradas. Usando valores por defecto para desarrollo.')
+  throw new Error('Las variables de entorno de Supabase (PUBLIC_SUPABASE_URL y PUBLIC_SUPABASE_ANON_KEY) no están configuradas. Asegúrate de crear un archivo .env y añadirlas.')
 }
 
-export const supabase = createClient(
-  supabaseUrl || 'https://placeholder.supabase.co', 
-  supabaseAnonKey || 'placeholder-key'
-)
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Funciones de autenticación
 export const auth = {
